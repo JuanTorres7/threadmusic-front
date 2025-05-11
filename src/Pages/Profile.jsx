@@ -3,8 +3,9 @@ import { useParams } from 'react-router-dom';
 import Post from '../components/Post';
 
 const mockUsers = {
-  '1': {
+  john_doe: {
     id: '1',
+    username: 'john_doe',
     name: 'John Doe',
     avatar: 'https://i.pravatar.cc/150?img=1',
     followers: 128,
@@ -14,8 +15,9 @@ const mockUsers = {
       { id: 'p2', userId: '1', content: 'Loving this track!', song: 'song2.mp3', comments: [] },
     ],
   },
-  '2': {
+  jane_smith: {
     id: '2',
+    username: 'jane_smith',
     name: 'Jane Smith',
     avatar: 'https://i.pravatar.cc/150?img=2',
     followers: 240,
@@ -27,12 +29,15 @@ const mockUsers = {
 };
 
 const Profile = () => {
-  const { userId } = useParams();
-  const currentUserId = '1';
-  const user = mockUsers[userId] || mockUsers[currentUserId];
+  const { username } = useParams();
+  const user = mockUsers[username];
+
+  if (!user) {
+    return <div className="text-light p-4">Usuario no encontrado</div>;
+  }
 
   return (
-    <div className="text-light">
+    <div className="text-light p-4">
       {/* Header */}
       <div className="d-flex align-items-center mb-4">
         <img
@@ -44,7 +49,7 @@ const Profile = () => {
         <div>
           <h4 className="mb-1">{user.name}</h4>
           <div className="text-white small">
-            {user.followers} Followers • {user.following} Following • {user.posts.length} Posts
+            @{user.username} • {user.followers} Followers • {user.following} Following • {user.posts.length} Posts
           </div>
         </div>
       </div>
